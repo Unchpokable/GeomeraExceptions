@@ -9,7 +9,7 @@
 #define FUNCNAME __FUNCTION__
 #endif
 
-#define GEOMERA_THROW_EXCEPTION(exception, message) ::GeomeraException::Throw<exception>(message, __FILE__, FUNCNAME, __LINE__);\
+#define GEOMERA_THROW_EXCEPTION(exception, message) ::GeomeraException::Throw<exception>(message, __FILE__, FUNCNAME, __LINE__)
 
 #define ASSERT_LOGIC(condition) \
     if (!(condition)) \
@@ -21,10 +21,10 @@
         (void)0 ; \
     }
 
-#define ASSERT_LOGIC_MESSAGE(expression, message) \
-    if (!(expression)) \
+#define ASSERT_LOGIC_MESSAGE(condition, message) \
+    if (!(condition)) \
     { \
-        GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraLogicalException, ::std::string("Logical Error: ") +  #expression + ", " + (message) + "\n"); \
+        GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraLogicalException, ::std::string("Logical Error: ") +  #condition + ", " + (message) + "\n"); \
     } \
     else \
     { \
@@ -34,7 +34,7 @@
 #define ASSERT_ARGUMENT(condition) \
     if (!(condition)) \
     { \
-        GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraArgumentException, ::std::string::("Invalid Argument: ") + #condition + "\n"); \
+        GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraArgumentException, ::std::string("Invalid Argument: ") + #condition + "\n"); \
     } \
     else \
     { \
@@ -54,7 +54,7 @@ if (!(condition)) \
 #define ASSERT_RUNTIME(condition) \
     if (!(condition)) \
     { \
-        GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraRuntimeException, ::std::string::("Runtime Error: ") + #condition + "\n"); \
+        GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraRuntimeException, ::std::string("Runtime Error: ") + #condition + "\n"); \
     } \
     else \
     { \
@@ -72,7 +72,7 @@ if (!(condition)) \
     }
 
 #define ASSERT_NOT_NULL(parameter, exception) \
-    if ((parameter) == nullptr) GEOMERA_THROW_EXCEPTION(exception, ::std::string(#parameter " is nullptr")); else (void)0;
+    if ((parameter) == nullptr) GEOMERA_THROW_EXCEPTION(exception, ::std::string(#parameter) + " is nullptr"); else (void)0;
 
 #define ASSERT_NOT_NULL_LOGIC(parameter) ASSERT_NOT_NULL(parameter, ::GeomeraException::GeomeraLogicalException)
 
