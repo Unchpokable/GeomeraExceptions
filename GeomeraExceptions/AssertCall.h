@@ -3,18 +3,20 @@
 #include <string>
 #include <sstream>
 
-#ifdef USE_VCPP_EXTENSIONS
+#ifdef _MSC_VER
 #define FUNCNAME __FUNCSIG__
+#elif defined (__GNUC__)
+#define FUNCNAME __PRETTY_FUNCTION__
 #else
 #define FUNCNAME __FUNCTION__
 #endif
 
-#define GEOMERA_THROW_EXCEPTION(exception, message) ::GeomeraException::Throw<exception>(message, __FILE__, FUNCNAME, __LINE__)
+#define THROW_EXCEPTION(exception, message) ::Exception::Throw<exception>(message, __FILE__, FUNCNAME, __LINE__)
 
 #define ASSERT_LOGIC(condition) \
     if (!(condition)) \
     { \
-        GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraLogicalException, ::std::string("Logical Error: ") +  #condition + "\n"); \
+        THROW_EXCEPTION(::Exception::LogicalException, ::std::string("Logical Error: ") +  #condition + "\n"); \
     } \
     else \
     { \
@@ -24,7 +26,7 @@
 #define ASSERT_LOGIC_MESSAGE(condition, message) \
     if (!(condition)) \
     { \
-        GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraLogicalException, ::std::string("Logical Error: ") +  #condition + ", " + (message) + "\n"); \
+        THROW_EXCEPTION(::Exception::LogicalException, ::std::string("Logical Error: ") +  #condition + ", " + (message) + "\n"); \
     } \
     else \
     { \
@@ -34,7 +36,7 @@
 #define ASSERT_ARGUMENT(condition) \
     if (!(condition)) \
     { \
-        GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraArgumentException, ::std::string("Invalid Argument: ") + #condition + "\n"); \
+        THROW_EXCEPTION(::Exception::ArgumentException, ::std::string("Invalid Argument: ") + #condition + "\n"); \
     } \
     else \
     { \
@@ -44,7 +46,7 @@
 #define ASSERT_ARGUMENT_MESSAGE(condition, message) \
 if (!(condition)) \
     { \
-        GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraArgumentException, ::std::string("Invalid Argument: ") +  #condition + ", " + (message) + "\n"); \
+        THROW_EXCEPTION(::Exception::ArgumentException, ::std::string("Invalid Argument: ") +  #condition + ", " + (message) + "\n"); \
     } \
     else \
     { \
@@ -54,7 +56,7 @@ if (!(condition)) \
 #define ASSERT_RUNTIME(condition) \
     if (!(condition)) \
     { \
-        GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraRuntimeException, ::std::string("Runtime Error: ") + #condition + "\n"); \
+        THROW_EXCEPTION(::Exception::RuntimeException, ::std::string("Runtime Error: ") + #condition + "\n"); \
     } \
     else \
     { \
@@ -64,7 +66,7 @@ if (!(condition)) \
 #define ASSERT_RUNTIME_MESSAGE(condition, message) \
 if (!(condition)) \
     { \
-        GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraRuntimeException, ::std::string("Runtime Error: ") +  #condition + ", " + (message) + "\n"); \
+        THROW_EXCEPTION(::Exception::RuntimeException, ::std::string("Runtime Error: ") +  #condition + ", " + (message) + "\n"); \
     } \
     else \
     { \
@@ -72,16 +74,16 @@ if (!(condition)) \
     }
 
 #define ASSERT_NOT_NULL(parameter, exception) \
-    if ((parameter) == nullptr) GEOMERA_THROW_EXCEPTION(exception, ::std::string(#parameter) + " is nullptr"); else (void)0;
+    if ((parameter) == nullptr) THROW_EXCEPTION(exception, ::std::string(#parameter) + " is nullptr"); else (void)0;
 
-#define ASSERT_NOT_NULL_LOGIC(parameter) ASSERT_NOT_NULL(parameter, ::GeomeraException::GeomeraLogicalException)
+#define ASSERT_NOT_NULL_LOGIC(parameter) ASSERT_NOT_NULL(parameter, ::Exception::LogicalException)
 
-#define ASSERT_NOT_NULL_ARGUMENT(parameter) ASSERT_NOT_NULL(parameter, ::GeomeraException::GeomeraArgumentException)
+#define ASSERT_NOT_NULL_ARGUMENT(parameter) ASSERT_NOT_NULL(parameter, ::Exception::ArgumentException)
 
-#define ASSERT_NOT_NULL_RUNTIME(parameter) ASSERT_NOT_NULL(parameter, ::GeomeraException::GeomeraRuntimeException)
+#define ASSERT_NOT_NULL_RUNTIME(parameter) ASSERT_NOT_NULL(parameter, ::Exception::RuntimeException)
 
-#define GEOMERA_THROW_LOGIC(message) GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraLogicalException, message)
+#define THROW_LOGIC(message) THROW_EXCEPTION(::Exception::LogicalException, message)
 
-#define GEOMERA_THROW_ARGUMENT(message) GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraArgumentException, message)
+#define THROW_ARGUMENT(message) THROW_EXCEPTION(::Exception::ArgumentException, message)
 
-#define GEOMERA_THROW_RUNTIME(message) GEOMERA_THROW_EXCEPTION(::GeomeraException::GeomeraRUNTIMEException, message)
+#define THROW_RUNTIME(message) THROW_EXCEPTION(::Exception::RuntimeException, message)
