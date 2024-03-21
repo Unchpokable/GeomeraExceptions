@@ -48,7 +48,8 @@ public:
 
 int main()
 {
+    std::cout << "Main called\n";
     TestC c {};
     StaticInit::execute();
-    std::cout << "Hello World!\n";
+    std::cout << "End main\n";
 }
